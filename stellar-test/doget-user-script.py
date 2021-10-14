@@ -21,11 +21,6 @@ python doget-user-script.py --public_key=GB7YHRL25LI66F6VYVRHGXZ3HPYEEKDMKY5JKLC
 
 """
 
-"""
---public_key=GC5PRFNWGGWTKVH5DLIO3QL5DV4FPBFAE26Q77BPSXCPQQWGJQVHSW7U
---secret_key=SCK3HVVRT5UWEO3LSTGGR4GNZ22CRGLNEH62OM3FBGZHTAVWSSK2CK2W
-"""
-
 
 # add parser to add argument to the script
 my_parser = argparse.ArgumentParser()
