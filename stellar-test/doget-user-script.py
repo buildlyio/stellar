@@ -70,7 +70,7 @@ claimable_balance_entry = CreateClaimableBalance(
 tx = (
     TransactionBuilder(
         source_account=account,
-        network_passphrase=Network.TESTNET_NETWORK_PASSPHRASE,
+        network_passphrase=Network.PUBLIC_NETWORK_PASSPHRASE,
         base_fee=server.fetch_base_fee()
     )
         .append_operation(claimable_balance_entry)
