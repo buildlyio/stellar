@@ -10,7 +10,7 @@ python3 -m virtualenv venv
 source venv/bin/activate
 
 ### install requirements
-pip3 install -f requirements.txt
+pip3 install -r requirements.txt
 
 ## Start the Server
 uvicorn main:app --reload

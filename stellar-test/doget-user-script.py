@@ -12,13 +12,18 @@ import argparse
 import requests
 
 """
-python doget-user-script.py --public_key=GB7YHRL25LI66F6VYVRHGXZ3HPYEEKDMKY5JKLCOYZSXFZIB5Y6BXBAQ 
-                    --secret_key=SBLZMMOSJUJQ4RAMA3Y46EZPKAD5D44I65E7FDSQENYVFYIZEWDI3VHH 
-                    --amount=100 
-                    --dogetcode=DoGet 
-                    --assetissuerpublickey=GB7YHRL25LI66F6VYVRHGXZ3HPYEEKDMKY5JKLCOYZSXFZIB5Y6BXBAQ 
+python doget-user-script.py --public_key=GB7YHRL25LI66F6VYVRHGXZ3HPYEEKDMKY5JKLCOYZSXFZIB5Y6BXBAQ
+                    --secret_key=SBLZMMOSJUJQ4RAMA3Y46EZPKAD5D44I65E7FDSQENYVFYIZEWDI3VHH
+                    --amount=100
+                    --dogetcode=DoGet
+                    --assetissuerpublickey=GB7YHRL25LI66F6VYVRHGXZ3HPYEEKDMKY5JKLCOYZSXFZIB5Y6BXBAQ
                     --url=https://horizon-testnet.stellar.org
 
+"""
+
+"""
+--public_key=GC5PRFNWGGWTKVH5DLIO3QL5DV4FPBFAE26Q77BPSXCPQQWGJQVHSW7U
+--secret_key=SCK3HVVRT5UWEO3LSTGGR4GNZ22CRGLNEH62OM3FBGZHTAVWSSK2CK2W
 """
 
 
@@ -41,9 +46,12 @@ server = Server(f"{args.url}")
 response = requests.get(f"{args.url}/accounts/?asset={args.dogetcode}:{args.assetissuerpublickey}")
 do_get_user_list = response.json()
 
+print("do_get_user_list", do_get_user_list)
+
 # get list of use account id
 do_get_user_accounts = []
 for user in do_get_user_list['_embedded']['records']:
+    print("user['account_id']: ", user['account_id'])
     do_get_user_accounts.append(user['account_id'])
 
 
@@ -56,17 +64,17 @@ except NotFoundError:
 # can add multiple claimer to the newly created claimable balance
 claimants = []
 
-# add do-get user to claimants who going to clime the claimable balance
+# add do-get user to claimants who going to claime the claimable balance
 for user_account in do_get_user_accounts:
     claimants.append(Claimant(destination=user_account))
 
 # create claimable balance entry with the list of claimants
 claimable_balance_entry = CreateClaimableBalance(
-    asset=Asset.native(),
+    asset=Asset('MEOW','GCZZK6B4MRHK2R4RRSS3ZYJZPFNQPO5Q47NHBESAOF2OCU3OJIZAMEOW')
     amount=str(args.amount),
     claimants=claimants
 )
-
+print("Claimants: ", claimants)
 tx = (
     TransactionBuilder(
         source_account=account,
@@ -101,5 +109,3 @@ try:
 
 except (BadRequestError, BadResponseError) as err:
     print(f"Tx submission failed: {err}")
-
-
