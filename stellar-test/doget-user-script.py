@@ -65,7 +65,7 @@ for user_account in do_get_user_accounts:
 
 # create claimable balance entry with the list of claimants
 claimable_balance_entry = CreateClaimableBalance(
-    asset=Asset('MEOW','GCZZK6B4MRHK2R4RRSS3ZYJZPFNQPO5Q47NHBESAOF2OCU3OJIZAMEOW')
+    asset=Asset('MEOW','GCZZK6B4MRHK2R4RRSS3ZYJZPFNQPO5Q47NHBESAOF2OCU3OJIZAMEOW'),
     amount=str(args.amount),
     claimants=claimants
 )
