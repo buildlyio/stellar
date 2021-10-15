@@ -15,8 +15,8 @@ import requests
 python doget-user-script.py --public_key=GB7YHRL25LI66F6VYVRHGXZ3HPYEEKDMKY5JKLCOYZSXFZIB5Y6BXBAQ
                     --secret_key=SBLZMMOSJUJQ4RAMA3Y46EZPKAD5D44I65E7FDSQENYVFYIZEWDI3VHH
                     --amount=100
-                    --dogetcode=DoGet
-                    --assetissuerpublickey=GB7YHRL25LI66F6VYVRHGXZ3HPYEEKDMKY5JKLCOYZSXFZIB5Y6BXBAQ
+                    --dogetcode=DOGET
+                    --assetissuerpublickey=GDOEVDDBU6OBWKL7VHDAOKD77UP4DKHQYKOKJJT5PR3WRDBTX35HUEUX-2
                     --url=https://horizon-testnet.stellar.org
 
 """
@@ -41,14 +41,19 @@ server = Server(f"{args.url}")
 response = requests.get(f"{args.url}/accounts/?asset={args.dogetcode}:{args.assetissuerpublickey}")
 do_get_user_list = response.json()
 
-print("do_get_user_list", do_get_user_list)
-
 # get list of use account id
 do_get_user_accounts = []
+
+# add counter to limit the number of claimants
+x=0
 for user in do_get_user_list['_embedded']['records']:
+    if x == 2:
+        break
     print("user['account_id']: ", user['account_id'])
     do_get_user_accounts.append(user['account_id'])
-
+    x=x+1
+print("accounts: ", x)
+print("verified accounts: ", len(do_get_user_accounts))
 
 # get a account to create claimable balance entry
 try:
