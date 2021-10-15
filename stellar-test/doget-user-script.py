@@ -43,16 +43,34 @@ do_get_user_list = response.json()
 
 # get list of use account id
 do_get_user_accounts = []
+string1 = 'coding'
+
+# opening file
+file1 = open("accounts.txt", "r")
+# read file content
+readfile = file1.read()
 
 # add counter to limit the number of claimants
 x=0
 for user in do_get_user_list['_embedded']['records']:
-    if x == 2:
+    account_check = str(user['account_id'])
+
+    # LIMIT ACCOUNTS
+    if x == 4:
         break
-    print("user['account_id']: ", user['account_id'])
-    do_get_user_accounts.append(user['account_id'])
-    x=x+1
-print("accounts: ", x)
+    # checking condition for string found or not
+    if account_check in readfile:
+        print('Account Already Used: ', user['account_id'] , 'Account Found')
+    else:
+        # write account to file
+        file2 = open("accounts.txt", "a")
+        file2.write(account_check + "\n")
+        print("NEW user['account_id']: ", user['account_id'])
+        do_get_user_accounts.append(user['account_id'])
+        x=x+1
+    # closing text file
+    file1.close()
+
 print("verified accounts: ", len(do_get_user_accounts))
 
 # get a account to create claimable balance entry
