@@ -38,8 +38,11 @@ args = my_parser.parse_args()
 server = Server(f"{args.url}")
 
 # filter the do-get users using API call
-response = requests.get(f"{args.url}/accounts/?asset={args.dogetcode}:{args.assetissuerpublickey}")
+# cursor needs to be set to last account in accounts.txt and pull 10 at a time
+response = requests.get(f"{args.url}/accounts/?asset={args.dogetcode}:{args.assetissuerpublickey}&cursor=GA23M4444A7MJ5XYF5M2FQHORT454JGVZQQAWK5IVT52G6U2JIGWWD4N&limit=10&order=asc")
 do_get_user_list = response.json()
+
+print(response.url)
 
 # get list of use account id
 do_get_user_accounts = []
@@ -56,7 +59,7 @@ for user in do_get_user_list['_embedded']['records']:
     account_check = str(user['account_id'])
 
     # LIMIT ACCOUNTS
-    if x == 3:
+    if x == 10:
         break
     # checking condition for string found or not
     if account_check in readfile:
