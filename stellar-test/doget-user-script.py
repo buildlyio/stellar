@@ -56,7 +56,7 @@ for user in do_get_user_list['_embedded']['records']:
     account_check = str(user['account_id'])
 
     # LIMIT ACCOUNTS
-    if x == 4:
+    if x == 3:
         break
     # checking condition for string found or not
     if account_check in readfile:
