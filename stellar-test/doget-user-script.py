@@ -76,7 +76,7 @@ for i in range(0, 100):
         account_check = str(user['account_id'])
 
         # LIMIT ACCOUNTS
-        if x == 9:
+        if x == 2:
             break
         # checking condition for string found or not
         if account_check in readfile:
@@ -157,12 +157,12 @@ for i in range(0, 100):
 
     except (BadRequestError, BadResponseError) as err:
         print(f"Tx submission failed: {err}")
-        readFile = open("accounts.txt")
-        lines = readFile.readlines()
-        readFile.close()
-        w = open("file",'w')
-        w.writelines([item for item in lines[:-9]])
-        w.close()
+        # readFile = open("accounts.txt")
+        # lines = readFile.readlines()
+        # readFile.close()
+        # w = open("accounts.txt",'w')
+        # w.writelines([item for item in lines[:-9]])
+        # w.close()
         # failed so break
         break
 
