@@ -68,7 +68,8 @@ for i in range(0, 100):
     file1 = open("accounts.txt", "r")
     # read file content
     readfile = file1.read()
-
+    # closing text file
+    file1.close()
     # add counter to limit the number of claimants
     x=0
     for user in do_get_user_list['_embedded']['records']:
@@ -84,11 +85,11 @@ for i in range(0, 100):
             # write account to file
             file2 = open("accounts.txt", "a")
             file2.write(account_check + "\n")
+            file2.close()
             print("NEW user['account_id']: ", user['account_id'])
             do_get_user_accounts.append(user['account_id'])
             x=x+1
-        # closing text file
-        file1.close()
+
 
     print("verified accounts: ", len(do_get_user_accounts))
 
@@ -156,8 +157,15 @@ for i in range(0, 100):
 
     except (BadRequestError, BadResponseError) as err:
         print(f"Tx submission failed: {err}")
+        readFile = open("accounts.txt")
+        lines = readFile.readlines()
+        readFile.close()
+        w = open("file",'w')
+        w.writelines([item for item in lines[:-9]])
+        w.close()
         # failed so break
         break
+
 
     # increment counter for while loop
     i = i + 1
