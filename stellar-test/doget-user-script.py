@@ -42,6 +42,10 @@ server = Server(f"{args.url}")
 # set counter to 0
 i = 0
 
+if args.dogetcode == "DOGET":
+    file="accounts-doget.txt"
+else:
+    file="accounts.txt"
 
 # 100 loops x 10 users = 1000 deposits
 for i in range(0, 100):
@@ -49,13 +53,15 @@ for i in range(0, 100):
     print(i)
 
     # get last account as cursor
-    with open('accounts.txt') as myfile:
+    with open(file) as myfile:
         cursor = list(myfile)[-1]
         print(cursor)
 
     # filter the do-get users using API call
     # cursor needs to be set to last account in accounts.txt and pull 10 at a time
+
     response = requests.get(f"{args.url}/accounts/?asset={args.dogetcode}:{args.assetissuerpublickey}&cursor={cursor}&limit=10&order=asc")
+
     do_get_user_list = response.json()
 
     print(response.url)
@@ -65,7 +71,7 @@ for i in range(0, 100):
     string1 = 'coding'
 
     # opening file
-    file1 = open("accounts.txt", "r")
+    file1 = open(file, "r")
     # read file content
     readfile = file1.read()
     # closing text file
@@ -76,14 +82,14 @@ for i in range(0, 100):
         account_check = str(user['account_id'])
 
         # LIMIT ACCOUNTS
-        if x == 2:
+        if x == 1:
             break
         # checking condition for string found or not
         if account_check in readfile:
             print('Account Already Used: ', user['account_id'] , 'Account Found')
         else:
             # write account to file
-            file2 = open("accounts.txt", "a")
+            file2 = open(file, "a")
             file2.write(account_check + "\n")
             file2.close()
             print("NEW user['account_id']: ", user['account_id'])
@@ -114,7 +120,7 @@ for i in range(0, 100):
         claimants.append(Claimant(destination=user_account, predicate = bCanClaim))
 
     # add parent account to reclaim balance after predicate time expires
-    claimants.append(Claimant(destination=args.public_key, predicate = aCanClaim))
+    # claimants.append(Claimant(destination=args.public_key, predicate = aCanClaim))
 
     # create claimable balance entry with the list of claimants
     claimable_balance_entry = CreateClaimableBalance(
@@ -157,10 +163,10 @@ for i in range(0, 100):
 
     except (BadRequestError, BadResponseError) as err:
         print(f"Tx submission failed: {err}")
-        # readFile = open("accounts.txt")
+        # readFile = open("file")
         # lines = readFile.readlines()
         # readFile.close()
-        # w = open("accounts.txt",'w')
+        # w = open(file,'w')
         # w.writelines([item for item in lines[:-9]])
         # w.close()
         # failed so break
